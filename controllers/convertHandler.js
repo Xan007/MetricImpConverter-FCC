@@ -21,9 +21,14 @@ const spellingUnit = {
 function ConvertHandler() {
 
   this.getNum = function (input) {
-    const { index = 0 } = input.match(getUnit) || {}
+    const unitMatch = input.match(getUnit)
 
-    const numberString = input.slice(0, index) || "1"
+    let numberString;
+
+    if (unitMatch)
+      numberString = input.slice(0, unitMatch.index) || "1"
+    else
+      numberString = input.slice(0, input.match(/[^\d\/\.]/).index)
 
     if (!numberString.match(getNum))
       return
@@ -42,7 +47,7 @@ function ConvertHandler() {
     input = input.toLowerCase()
     let [, unit] = input.match(getUnit) || []
 
-    if (unit == "l")
+    if (unit === "l")
       unit = unit.toUpperCase()
 
     return unit;
